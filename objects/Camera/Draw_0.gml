@@ -24,6 +24,24 @@ var xfrom = xto + camera_distance * dcos(Player.look_dir) * dcos(Player.look_pit
 var yfrom = yto - camera_distance * dsin(Player.look_dir) * dcos(Player.look_pitch);
 var zfrom = zto - camera_distance * dsin(Player.look_pitch);
 
+// The above is equivalent to:
+/*
+var xfrom = xto + lengthdir_x(camera_distance, Player.look_dir) * lengthdir_x(1, Player.look_pitch);
+// If you want to be confusing:
+var yfrom = yto + lengthdir_x(lengthdir_y(camera_distance, Player.look_dir), Player.look_pitch);
+var zfrom = zto + lengthdir_y(camera_distance, Player.look_pitch);
+*/
+// (Comment that block out if you want to check)
+/*
+// The defintions of the lengthdir functions:
+function lengthdir_x(dist, angle) {
+    return dist * dcos(angle);
+}
+
+function lengthdir_y(dist, angle) {
+    return -dist * dsin(angle);
+}
+*/
 view_mat = matrix_build_lookat(xfrom, yfrom, zfrom, xto, yto, zto, 0, 0, 1);
 proj_mat = matrix_build_projection_perspective_fov(-60, -window_get_width() / window_get_height(), 1, 32000);
 camera_set_view_mat(camera, view_mat);
